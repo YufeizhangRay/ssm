@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cs673.team4.mapper.AppInfoMapper">
+	<!-- 开启mapper的二级缓存 -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
+	<resultMap id="BaseResultMap" type="cs673.team4.pojo.AppInfo">
+		<constructor>
+			<idArg column="app_id" javaType="java.lang.Integer"
+				jdbcType="INTEGER" />
+			<arg column="app_name" javaType="java.lang.String"
+				jdbcType="VARCHAR" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		app_id, app_name
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from test
+		where app_id = #{appId,jdbcType=INTEGER}
+	</select>
+	<select id="selectAll" resultType="cs673.team4.pojo.AppInfo">
+		select
+		<include refid="Base_Column_List" />
+		from test
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from test
+		where app_id = #{appId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="cs673.team4.pojo.AppInfo">
+		insert into test (app_id, app_name)
+		values (#{appId,jdbcType=INTEGER}, #{appName,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cs673.team4.pojo.AppInfo">
+		insert into test
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="appId != null">
+				app_id,
+			</if>
+			<if test="appName != null">
+				app_name,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="appId != null">
+				#{appId,jdbcType=INTEGER},
+			</if>
+			<if test="appName != null">
+				#{appName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cs673.team4.pojo.AppInfo">
+		update test
+		<set>
+			<if test="appName != null">
+				app_name = #{appName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where app_id = #{appId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cs673.team4.pojo.AppInfo">
+		update test
+		set app_name = #{appName,jdbcType=VARCHAR}
+		where app_id = #{appId,jdbcType=INTEGER}
+	</update>
+</mapper>
